@@ -19,10 +19,10 @@ const SilenceMatch: FC<{
 }> = ({ silenceFormStore, matcher, showDelete, onDelete, isValid }) => {
   return (
     <div className="d-flex flex-fill flex-lg-row flex-column mb-3">
-      <div className="flex-shrink-0 flex-grow-0 flex-basis-25 pr-lg-2 pb-2 pb-lg-0">
+      <div className="flex-shrink-0 flex-grow-0 flex-basis-25 pe-lg-2 pb-2 pb-lg-0">
         <LabelNameInput matcher={matcher} isValid={isValid} />
       </div>
-      <div className="flex-shrink-0 flex-grow-0 flex-basis-50 pr-lg-2 pb-2 pb-lg-0">
+      <div className="flex-shrink-0 flex-grow-0 flex-basis-50 pe-lg-2 pb-2 pb-lg-0">
         <LabelValueInput
           silenceFormStore={silenceFormStore}
           matcher={matcher}
@@ -30,10 +30,10 @@ const SilenceMatch: FC<{
         />
       </div>
       <div className="flex-shrink-0 flex-grow-1 flex-basis-auto form-check form-check-inline d-flex justify-content-between m-0">
-        <span className="custom-control custom-switch">
+        <span className="form-switch">
           <input
             id={`isRegex-${matcher.id}`}
-            className="custom-control-input"
+            className="form-check-input"
             type="checkbox"
             value=""
             checked={matcher.isRegex}
@@ -45,7 +45,7 @@ const SilenceMatch: FC<{
             disabled={matcher.values.length > 1}
           />
           <label
-            className="custom-control-label cursor-pointer mr-3"
+            className="form-check-label cursor-pointer me-3"
             htmlFor={`isRegex-${matcher.id}`}
           >
             Regex

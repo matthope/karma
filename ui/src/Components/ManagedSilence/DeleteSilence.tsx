@@ -90,13 +90,13 @@ const DeleteResult: FC<{
         <div className="d-flex flex-row-reverse">
           <button
             type="button"
-            className="btn btn-danger mr-2"
+            className="btn btn-danger me-2"
             onClick={() => setCurrentTime(Math.floor(Date.now()))}
             disabled={isDeleting}
           >
             <FontAwesomeIcon
               icon={isDeleting ? faCheckCircle : faRedo}
-              className="mr-1"
+              className="me-1"
             />
             {isDeleting ? "Confirm" : "Retry"}
           </button>
@@ -124,9 +124,7 @@ const DeleteSilenceModalContent: FC<{
     <>
       <div className="modal-header">
         <h5 className="modal-title">Delete silence</h5>
-        <button type="button" className="close" onClick={onHide}>
-          <span>&times;</span>
-        </button>
+        <button type="button" className="btn-close" onClick={onHide}></button>
       </div>
       <div className="modal-body">
         {confirm ? (
@@ -151,11 +149,11 @@ const DeleteSilenceModalContent: FC<{
             <div className="d-flex flex-row-reverse">
               <button
                 type="button"
-                className="btn btn-danger mr-2"
+                className="btn btn-danger me-2"
                 onClick={() => setConfirm(true)}
                 disabled={confirm}
               >
-                <FontAwesomeIcon icon={faCheckCircle} className="mr-1" />
+                <FontAwesomeIcon icon={faCheckCircle} className="me-1" />
                 Confirm
               </button>
             </div>
@@ -189,7 +187,7 @@ const DeleteSilence: FC<{
         }}
       >
         <FontAwesomeIcon
-          className="mr-1 d-none d-sm-inline-block"
+          className="me-1 d-none d-sm-inline-block"
           icon={faTrash}
         />
         Delete
