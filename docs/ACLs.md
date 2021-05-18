@@ -16,17 +16,20 @@ Example Alertmanager silence:
     {
       "name": "alertname",
       "value": "Test Alert",
-      "isRegex": false
+      "isRegex": false,
+      "isEqual": true
     },
     {
       "name": "cluster",
       "value": "prod",
-      "isRegex": false
+      "isRegex": false,
+      "isEqual": true
     },
     {
       "name": "instance",
       "value": "server1",
-      "isRegex": false
+      "isRegex": false,
+      "isEqual": true
     }
   ],
   "startsAt": "2020-03-09T20:11:00.000Z",
@@ -79,12 +82,14 @@ Silence example using regex:
     {
       "name": "alertname",
       "value": "Test Alert",
-      "isRegex": false
+      "isRegex": false,
+      "isEqual": true
     },
     {
       "name": "cluster",
       "value": "staging|prod",
-      "isRegex": true
+      "isRegex": true,
+      "isEqual": true
     }
   ],
   "startsAt": "2020-03-09T20:11:00.000Z",
@@ -110,12 +115,14 @@ so a silence like the one below should be blocked:
     {
       "name": "alertname",
       "value": "Test Alert",
-      "isRegex": false
+      "isRegex": false,
+      "isEqual": true
     },
     {
       "name": "cluster",
       "value": "prod",
-      "isRegex": false
+      "isRegex": false,
+      "isEqual": true
     }
   ],
   "startsAt": "2020-03-09T20:11:00.000Z",
@@ -131,7 +138,8 @@ But if we would create an ACL rule that simply blocks silences with matcher:
 {
   "name": "cluster",
   "value": "prod",
-  "isRegex": false
+  "isRegex": false,
+  "isEqual": true
 }
 ```
 
@@ -141,7 +149,8 @@ then any user could bypass that with a regex matcher like:
 {
   "name": "cluster",
   "value": "pro[d]",
-  "isRegex": true
+  "isRegex": true,
+  "isEqual": true
 }
 ```
 
@@ -196,13 +205,20 @@ matchers:
   value: string
   value_re: regex
   isRegex: bool
+  isEqual: bool
   ```
 
   Every rule must have `name` or `name_re` AND `value` or `value_re`, default
-  value for `isRegex` is `false`.
-  Filter works by comparing `name` and `name_re` with silence matcher `name`,
-  `value` and `value_re` with silence matcher `value` and `isRegex` on the
-  filter with `isRegex` on silence matcher. See examples below.
+  value for `isRegex` is `false`, default value for `isEqual` is `true`.
+
+  Filter works by comparing:
+
+  - `name` and `name_re` with silence matcher `name`
+  - `value` and `value_re` with silence matcher `value`
+  - `isRegex` on the filter with `isRegex` on silence matcher
+  - `isEqual` on the filter with `isEqual` on silence matcher
+
+  See examples below.
   All regexes will be automatically anchored.
 
 - `matchers:required` - list of additional matchers that must be part of the

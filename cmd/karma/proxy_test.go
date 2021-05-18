@@ -1126,6 +1126,42 @@ func TestProxySilenceACL(t *testing.T) {
 			responseCode:        400,
 		},
 		{
+			name: "block negative matchers",
+			authGroups: map[string][]string{
+				"admins": {"bob"},
+				"users":  {"alice"},
+			},
+			silenceACLs: []*silenceACL{
+				{
+					Action: "block",
+					Reason: "block negative matchers",
+					Scope: silenceACLScope{
+						Filters: []silenceFilter{
+							{
+								NameRegex:  regexp.MustCompile("^.+$"),
+								ValueRegex: regexp.MustCompile("^.+$"),
+								IsEqual:    false,
+							},
+						},
+						Groups:        []string{},
+						Alertmanagers: []string{},
+					},
+					Matchers: aclMatchers{
+						Required: []silenceMatcher{
+							{
+								Name:    "alertname",
+								Value:   "Fake Alert",
+								IsEqual: false,
+							},
+						},
+					},
+				},
+			},
+			requestUsername:     "uncle",
+			frontednRequestBody: defaultBody,
+			responseCode:        400,
+		},
+		{
 			name: "invalid silence JSON",
 			silenceACLs: []*silenceACL{
 				{

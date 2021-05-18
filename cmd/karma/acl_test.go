@@ -130,6 +130,62 @@ func TestAclSilenceMatcher(t *testing.T) {
 			},
 			isMatch: false,
 		},
+		{
+			requiredMatcher: silenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsRegex: true,
+				IsEqual: false,
+			},
+			silenceMatcher: models.SilenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsRegex: true,
+				IsEqual: false,
+			},
+			isMatch: true,
+		},
+		{
+			requiredMatcher: silenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsRegex: true,
+				IsEqual: true,
+			},
+			silenceMatcher: models.SilenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsRegex: true,
+				IsEqual: true,
+			},
+			isMatch: true,
+		},
+		{
+			requiredMatcher: silenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsEqual: false,
+			},
+			silenceMatcher: models.SilenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsEqual: true,
+			},
+			isMatch: false,
+		},
+		{
+			requiredMatcher: silenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsEqual: true,
+			},
+			silenceMatcher: models.SilenceMatcher{
+				Name:    "foo",
+				Value:   "bar",
+				IsEqual: false,
+			},
+			isMatch: false,
+		},
 	}
 
 	for _, testCase := range testCases {

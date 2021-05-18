@@ -5,7 +5,8 @@
 ### Added
 
 - Added support for alertmanager `v0.22.0`
-  [negative matchers](https://github.com/prometheus/alertmanager/pull/2434).
+  [negative matchers](https://github.com/prometheus/alertmanager/pull/2434)
+  when creating/editing silences and in [ACL rules](/docs/ACLs.md).
 
 ## v0.85
 

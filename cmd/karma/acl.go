@@ -27,6 +27,7 @@ type silenceFilter struct {
 	Value      string
 	ValueRegex *regexp.Regexp
 	IsRegex    bool
+	IsEqual    bool
 }
 
 func (sf *silenceFilter) isMatch(silence *models.Silence) bool {
@@ -45,7 +46,7 @@ func (sf *silenceFilter) isMatch(silence *models.Silence) bool {
 			valueMatch = true
 		}
 
-		if nameMatch && valueMatch && sf.IsRegex == m.IsRegex {
+		if nameMatch && valueMatch && sf.IsRegex == m.IsRegex && sf.IsEqual == m.IsEqual {
 			return true
 		}
 	}
@@ -59,6 +60,7 @@ type silenceMatcher struct {
 	Value      string
 	ValueRegex *regexp.Regexp
 	IsRegex    bool
+	IsEqual    bool
 }
 
 func (sm *silenceMatcher) isMatch(m models.SilenceMatcher) bool {
@@ -75,6 +77,9 @@ func (sm *silenceMatcher) isMatch(m models.SilenceMatcher) bool {
 		return false
 	}
 	if sm.IsRegex != m.IsRegex {
+		return false
+	}
+	if sm.IsEqual != m.IsEqual {
 		return false
 	}
 	return true
@@ -203,10 +208,15 @@ func newSilenceACLFromConfig(cfg config.SilenceACLRule) (*silenceACL, error) {
 			return nil, fmt.Errorf("silence ACL rule filter can only have 'value' or 'value_re' set, not both")
 		}
 
+		isEqual := true
+		if filter.IsEqual != nil {
+			isEqual = *filter.IsEqual
+		}
 		f := silenceFilter{
 			Name:    filter.Name,
 			Value:   filter.Value,
 			IsRegex: filter.IsRegex,
+			IsEqual: isEqual,
 		}
 
 		if filter.NameRegex != "" {
@@ -244,10 +254,15 @@ func newSilenceACLFromConfig(cfg config.SilenceACLRule) (*silenceACL, error) {
 				return nil, fmt.Errorf("silence ACL rule matcher can only have 'value' or 'value_re' set, not both")
 			}
 
+			isEqual := true
+			if matcherConfig.IsEqual != nil {
+				isEqual = *matcherConfig.IsEqual
+			}
 			m := silenceMatcher{
 				Name:    matcherConfig.Name,
 				Value:   matcherConfig.Value,
 				IsRegex: matcherConfig.IsRegex,
+				IsEqual: isEqual,
 			}
 
 			if matcherConfig.NameRegex != "" {
